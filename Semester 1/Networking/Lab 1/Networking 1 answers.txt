@@ -1,0 +1,121 @@
+Router 1:
+Router(config)#hostname R1
+R1(config)#enable secret cisco
+R1(config)#banner motd cwarnc
+R1(config)#interface G0/0
+R1(config-if)#ip address 10.10.10.1 255.255.255.192
+R1(config-if)#ipv6 address 2001:DB8:A:10::1/64
+R1(config-if)#ipv6 address FE80::1 link-local 
+R1(config-if)#no shutdown
+R1(config-if)exit
+R1(config)#interface S0/0/0
+R1(coinfig-if)#ip address 64.102.139.2 255.255.255.0
+R1(config-if)#ipv6 address 2001:DB8:A:64::2/64
+R1(config-if)#ipv6 address FE80::1 link-local 
+R1(config-if)#no shutdown
+R1(config-if)exit
+R1(config)#interface S0/0/1
+R1(config-if)#ip address 10.10.1.1 255.255.255.252
+R1(config-if)#ipv6 address 2001:DB8:B:1::1/64
+R1(config-if)#ipv6 address FE80::1 link-local
+R1(config-if)#no shutdown
+R1(config-if)#exit
+R1(config)#interface S0/1/0
+R1(config-if)#ip address 10.10.1.5 255.255.255.252
+R1(config-if)#ipv6 address 2001:DB8:B:2::1/64
+R1(config-if)#ipv6 address FE80::1 link-local
+R1(config-if)#no shutdown
+R1(config-if)#exit
+R1(config)#access-list 1 permit 10.10.0.0 0.0.255.255
+R1(config)#ip nat pool R1 64.102.139.4 64.102.139.7 netmask 255.255.255.252
+R1(config)#ip nat inside source list 1 pool R1 overload
+R1(config)#ip nat inside source static tcp 10.10.10.10 80 64.102.139.2 80 
+R1(config)#ip nat inside source static tcp 10.10.10.10 443 64.102.139.2 443
+R1(config)#interface G0/0
+R1(config-if)#ip nat inside
+R1(config-if)#exit
+R1(config)#interface S0/0/0
+R1(config-if)#ip nat outside
+R1(config-if)#exit
+R1(config)#interface S0/0/1
+R1(config-if)#ip nat inside
+R1(config-if)#exit
+R1(config)#interface S0/1/0
+R1(config-if)#ip nat inside
+R1(config-if)#exit
+R1(config)#ip route 0.0.0.0 0.0.0.0 64.102.139.1
+R1(config)#ipv6 unicast-routing
+R1(config)#ipv6 route ::/0 S0/0/0
+R1(config)#router ospf 1
+R1(config-router)#passive-interface G0/0
+R1(config-router)#default-information originate
+R1(config-router)#network 10.10.10.0 0.0.0.63 area 0
+R1(config-router)#network 10.10.1.0 0.0.0.3 area 0
+R1(config-router)#network 10.10.1.4 0.0.0.3 area 0
+R1(config-router)#exit
+R1(config)#ipv6 router ospf 1
+R1(config-rtr)#router-id 1.1.1.1
+R1(config-rtr)#passive-interface G0/0
+R1(config-rtr)#default-information originate 
+R1(config-rtr)#exit
+R1(config)#interface S0/0/1
+R1(config-if)#ipv6 ospf 1 area 0
+R1(config-if)#exit
+R1(config)#interface S0/1/0
+R1(config-if)#ipv6 ospf 1 area 0
+R1(config-if)#exit
+R1(config)#interface G0/0
+R1(config-if)#ipv6 ospf 1 area 0
+R1(config-if)#exit
+R1(config)#
+
+Router 4:
+
+Router(config)#hostname R4
+R4(config)#enable secret cisco
+R4(config)#banner motd cwarnc
+R4(config)#interface G0/0
+R4(config-if)#ip address 10.10.4.1 255.255.255.0
+R4(config-if)#ipv6 address 2001:DB8:A:4::1/64
+R4(config-if)#ipv6 address FE80::4 link-local
+R4(config-if)#no shutdown
+R4(config-if)#exit
+R4(config)#interface S0/0/1
+R4(config-if)#ip address 64.103.17.2 255.255.255.252	
+R4(config-if)#ipv6 address 2001:DB8:A:103::2/64
+R4(config-if)#ipv6 address FE80::4 link-local
+R4(config-if)#no shutdown
+R4(config-if)#exit
+R4(config)#ip domain-name R4
+R4(config)#username admin secret cisco
+R4(config)#crypto key generate rsa
+% You already have RSA keys defined named R4.R4 .
+% Do you really want to replace them? [yes/no]: yes
+The name for the keys will be: R4.R4
+Choose the size of the key modulus in the range of 360 to 2048 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+
+How many bits in the modulus [512]: 2048
+% Generating 2048 bit RSA keys, keys will be non-exportable...[OK]
+
+R4(config)#line vty 0 15
+R4(config-line)#transport input ssh
+R4(config-line)#login local
+R4(config-line)#exit
+R4(config)#ip dhcp excluded-address 10.10.4.1
+R4(config)#ip dhcp pool R4
+R4(dhcp-config)#network 10.10.4.0 255.255.255.0
+R4(dhcp-config)#default-router 10.10.4.1
+R4(dhcp-config)#dns-server 209.165.44.2
+R4(dhcp-config)#exit
+R4(config)#access-list 1 permit 10.10.4.0 0.0.0.255
+R4(config)#ip nat inside source list 1 interface S0/0/1
+R4(config)#interface S0/0/1
+R4(config-if)#ip nat outside
+R4(config-if)#exit
+R4(config)#interface G0/0
+R4(config-if)#ip nat inside
+R4(config)#ip route 0.0.0.0 0.0.0.0 S0/0/1
+R4(config)#ipv6 unicast-routing
+R4(config)#ipv6 route ::/0 S0/0/1

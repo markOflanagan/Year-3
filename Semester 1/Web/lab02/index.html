@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h2>3 Questions about myself.</h2>
+<script>
+	function questions()
+	{
+		document.forms["myQ"]
+		["Q1"].value;
+		document.forms["myQ"]
+		["Q2"].value;
+		
+		if(x=="")
+		{
+			alert("blank answer");
+			return false;
+		}
+		
+	}
+</script>
+</head>
+<body>
+<form name = "myForm"
+correct = 0
+onsubmit="return validateForm()"
+method="post">
+Question 1: What is my name? <input type="text" name="Q1">
+<input type="submit" value="Submit"
+if(input= "Mark")
+	{
+		correct++
+	}>
+<br>
+Question 2: What age am I? <input type="text" name="Q2">
+<input type="submit" value="Submit"
+if(input= 20)
+	{
+		correct++
+	}>
+<br>
+Question 3: Where do I go to College ? <input type="text" name="Q3">
+<input type="submit" value="Submit"
+
+if(input= DIT)
+	{
+		correct++
+	}
+	
+if(correct = 3)
+	{
+		action="/right.html"
+	}
+	
+else
+	{
+		action="incorrect.html"
+	}>
+
+</form>
+
+</body>
+</html>

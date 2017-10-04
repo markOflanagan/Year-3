@@ -1,0 +1,61 @@
+Question 1: wc -w words = 52875 words
+Question 2: grep -e -c '\ba' words = 4096 words
+Question 3: grep -e -c 'z\b' words = 72 words
+Question 4: cp tac words > wordsreverse
+Question 5: grep -c -v '[aeiou]'= 201 words
+Question 6: awk '{print length($1), $1}' str.txt | sort -nk 1 | head -1 , a 
+Question 7: grep -e  ".{(wc -L < words)}" words
+Question 8: awk '{print length($1)}' words | grep -c '[4,5]'
+		3191 words containg 4 letters,4993 words containg 5 letters
+Question 9: awk '{print length($1)}' words | grep -c '[4,5]'| wc -c = 5 bytes
+Question 10: wc(-l processes.txt) = 50 processes
+Question 11: (grep -c < "root"  processes.txt) = 3 processes
+Question 12: (grep -i "ssh" processes.txt |awk''{print $2}) = 167
+Question 13: /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+Question 14: grep -c 'root' 'processes.txt'= 47 
+Question 15: awk '{s+=$2} END {print s}' processes.txt = 4150
+
+
+Lecture Questions 
+
+Question 1:
+	In my opinion big data refers to vast amounts of structured, semi-structured and unstructured data 
+	that has the potential to be mined for information. This phenomen known as big data can be attributed to the
+	rise of the digital age in the early 2000's.
+
+Question 2:
+
+	 Cloud Computing, a model for enabling ubiquitos and on-demand network access to a shared pool of 
+	 configureable computing resources. Which vcan be rapidly provisioned and releaesed with minimal 
+`	 management.The cloud model is composed of five essential characteristics, three service models,
+	 and four deployment models.
+	 
+	 On-demand self-service: A consumer can unilaterally provision computing capabilities,
+	 such as server time and network storage.
+
+	 Broad network access: Capabilities are available over the network and accessed through standard mechanisms 
+	 that promote use by heterogeneous thin or thick client platforms.
+
+	 Resource pooling: The provider's computing resources are pooled to serve multiple consumers using a multi-tenant model, 
+	 with different physical and virtual resources dynamically assigned and reassigned according to consumer demand.
+
+	 Rapid elasticity: Capabilities can be elastically provisioned and released, in some cases automatically, 
+	 to scale rapidly outward and inward commensurate with demand.
+
+	 Measured service: Cloud systems automatically control and optimize resource use by leveraging a metering capability at some level of abstraction 
+	 appropriate to the type of service.
+
+
+Question 3:
+
+IaaS (Infrastructure as a Service):
+-IaaS is the lowest-level cloud service paradigm and arguably the most important. With IaaS, pre-configured hardware resources are provided to users 
+	through a virtual interface.
+
+PaaS (Platform as a Service)
+- A cloud service model where the cloud is used to deliver a platform to users from which they can develop, initialize and manage applications. 
+	PaaS offerings typically include a base operating system and a suite of applications and development tools.
+
+SaaS (Software as a Service)
+- SaaS is a software licensing and delivery model where a fully functional and complete software product is delivered to users over the web on a subscription basis. 
+	SaaS offerings are typically accessed by end users through a web browser and can be billed based on consumption or, more simply, with a flat monthly charge.	
